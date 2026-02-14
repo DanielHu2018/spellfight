@@ -3,6 +3,36 @@
   display: flex;
   justify-content: center;
   background: var(--bg-deep);
+  position: relative;
+}
+
+.arenaLoading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: var(--bg-deep);
+  color: var(--text-muted);
+  z-index: 10;
+}
+.arenaLoading p { margin: 0; }
+.arenaLoadingHint {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+.arenaLoadingSpinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: arenaSpin 0.8s linear infinite;
+}
+@keyframes arenaSpin {
+  to { transform: rotate(360deg); }
 }
 
 .arena {

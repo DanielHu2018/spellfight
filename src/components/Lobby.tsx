@@ -63,6 +63,7 @@ export function Lobby({
               <div className={styles.finding}>
                 <div className={styles.spinner} aria-hidden />
                 <p>Waiting for opponent…</p>
+                <p className={styles.findingHint}>Share the room code. Connection may take a few seconds.</p>
               </div>
             )}
             <button type="button" className={styles.back} onClick={onBack}>
@@ -106,6 +107,7 @@ export function Lobby({
               <div className={styles.finding}>
                 <div className={styles.spinner} aria-hidden />
                 <p>Connecting…</p>
+                <p className={styles.findingHint}>This may take a few seconds.</p>
               </div>
             )}
             {error && <p className={styles.error}>{error}</p>}

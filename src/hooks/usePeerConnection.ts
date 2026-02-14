@@ -27,6 +27,9 @@ const PEER_CONFIG = {
   path: '/',
 };
 
+/** If Peer/signaling doesn't connect within this time, show error so user isn't stuck. */
+const CONNECTION_TIMEOUT_MS = 22000;
+
 export function usePeerConnection() {
   const peerRef = useRef<Peer | null>(null);
   const connectionRef = useRef<DataConnection | null>(null);
@@ -41,8 +44,17 @@ export function usePeerConnection() {
 
   const localStreamRef = useRef<MediaStream | null>(null);
   const mediaConnectionsRef = useRef<MediaConnection[]>([]);
+  const connectionTimeoutRef = useRef<number>(0);
+
+  const clearConnectionTimeout = useCallback(() => {
+    if (connectionTimeoutRef.current) {
+      window.clearTimeout(connectionTimeoutRef.current);
+      connectionTimeoutRef.current = 0;
+    }
+  }, []);
 
   const cleanup = useCallback(() => {
+    clearConnectionTimeout();
     mediaConnectionsRef.current.forEach((mc) => {
       try {
         mc.close();
@@ -66,7 +78,7 @@ export function usePeerConnection() {
       remoteStream: null,
       isHost: null,
     }));
-  }, []);
+  }, [clearConnectionTimeout]);
 
   useEffect(() => () => cleanup(), [cleanup]);
 
@@ -78,11 +90,21 @@ export function usePeerConnection() {
     const peer = new Peer(roomId, PEER_CONFIG);
     peerRef.current = peer;
 
+    connectionTimeoutRef.current = window.setTimeout(() => {
+      connectionTimeoutRef.current = 0;
+      if (peerRef.current && state.status !== 'connected') {
+        cleanup();
+        setState((s) => ({ ...s, status: 'error', error: 'Connection timed out. PeerJS may be slow—try again.' }));
+      }
+    }, CONNECTION_TIMEOUT_MS);
+
     peer.on('open', () => {
+      clearConnectionTimeout();
       setState((s) => ({ ...s, status: 'waiting', error: null }));
     });
 
     peer.on('error', (err) => {
+      clearConnectionTimeout();
       if (err.type === 'unavailable-id') {
         setState((s) => ({ ...s, status: 'error', error: 'Room ID taken. Try again.' }));
       } else {
@@ -92,6 +114,7 @@ export function usePeerConnection() {
 
     peer.on('connection', (conn) => {
       conn.on('open', () => {
+        clearConnectionTimeout();
         connectionRef.current = conn;
         setState((s) => ({ ...s, status: 'connected', connection: conn, isHost: true }));
       });

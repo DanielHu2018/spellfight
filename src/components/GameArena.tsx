@@ -218,6 +218,13 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
 
   return (
     <div className={styles.arenaWrap}>
+      {status === 'loading' && (
+        <div className={styles.arenaLoading}>
+          <div className={styles.arenaLoadingSpinner} aria-hidden />
+          <p>Loading hand tracking…</p>
+          <p className={styles.arenaLoadingHint}>This may take a moment on first load.</p>
+        </div>
+      )}
       <div className={`${styles.arena} ${layoutMirror ? styles.arenaMirror : ''}`}>
       <div className={styles.hud}>
         <div className={styles.healthRow}>

@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Landing } from './components/Landing';
 import { WebcamGate } from './components/WebcamGate';
 import { Tutorial } from './components/Tutorial';
 import { Lobby } from './components/Lobby';
-import { GameArena } from './components/GameArena';
 import { usePeerConnection } from './hooks/usePeerConnection';
+
+const GameArena = lazy(() =>
+  import('./components/GameArena').then((m) => ({ default: m.GameArena }))
+);
 
 export type AppScreen = 'landing' | 'webcam' | 'tutorial' | 'lobby' | 'game';
 
@@ -19,6 +22,14 @@ function App() {
     setScreen('tutorial');
   };
   const handleTutorialDone = () => setScreen('lobby');
+
+  // Preload game chunk when in lobby so it's ready when opponent connects
+  useEffect(() => {
+    if (screen === 'lobby') {
+      import('./components/GameArena');
+    }
+  }, [screen]);
+
   const handleBackToLobby = () => {
     peer.disconnect();
     setScreen('lobby');
@@ -54,14 +65,23 @@ function App() {
         />
       )}
       {screen === 'game' && stream && (
-        <GameArena
-          stream={stream}
-          connection={peer.connection}
-          remoteStream={peer.remoteStream}
-          onStartVideoCall={peer.startVideoCall}
-          onExit={handleBackToLobby}
-          layoutMirror={peer.isHost === false}
-        />
+        <Suspense
+          fallback={
+            <div className="app-loading">
+              <div className="app-loading-spinner" aria-hidden />
+              <p>Loading game…</p>
+            </div>
+          }
+        >
+          <GameArena
+            stream={stream}
+            connection={peer.connection}
+            remoteStream={peer.remoteStream}
+            onStartVideoCall={peer.startVideoCall}
+            onExit={handleBackToLobby}
+            layoutMirror={peer.isHost === false}
+          />
+        </Suspense>
       )}
     </div>
   );
