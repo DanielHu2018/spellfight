@@ -1,6 +1,6 @@
-# Spell Fight — Gesture-Based PvP Duel
+# Handzo — Gesture-Based PvP Duel
 
-A two-player, web-based spell fighting game where you cast spells using **real-time hand gestures** from your webcam. Gesture detection runs **locally** (MediaPipe Hands); only game events are sent over the network (Phase 2: P2P).
+A two-player, web-based duel where you cast spells using **real-time hand gestures** from your webcam. Gesture detection runs **locally** (MediaPipe Hands); only game events are sent over the network (Phase 2: P2P).
 
 ## Run locally
 
