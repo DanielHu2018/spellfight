@@ -11,7 +11,10 @@ const CAST_LOCK_MS = 600;
 /** Block requires higher confidence to avoid accidental triggers (stricter than general 0.55) */
 const BLOCK_CONFIDENCE_MIN = 0.72;
 /** Time the defender has to see the attack and respond (DDR/Just Dance style) */
-const TELEGRAPH_MS = 1800;
+const TELEGRAPH_MS = 2800;
+/** Rate limit: max attacks (spell + punch combined) per window so defenders can respond */
+const ATTACK_RATE_WINDOW_MS = 5500;
+const MAX_ATTACKS_PER_WINDOW = 2;
 
 interface IncomingAttack {
   id: number;
@@ -45,6 +48,7 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
   const [, setTick] = useState(0);
   const [connectionLost, setConnectionLost] = useState(false);
   const castLockRef = useRef<number>(0);
+  const attackSentAtRef = useRef<number[]>([]);
   const incomingIdRef = useRef(0);
   const hadConnectionRef = useRef(false);
   const opponentVideoRef = useRef<HTMLVideoElement>(null);
@@ -94,7 +98,9 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
 
   const sendRef = useRef<(event: GameEvent) => void>(() => {});
   const incomingAttacksRef = useRef<IncomingAttack[]>([]);
+  const setTickRef = useRef<((t: number) => void) | null>(null);
   incomingAttacksRef.current = incomingAttacks;
+  setTickRef.current = setTick;
 
   useEffect(() => {
     if (!connection) return;
@@ -110,10 +116,16 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
       const setOpp = setOpponentHealthRef.current;
       if (ev?.type === 'spell_cast' && ev.spell === 'firebreath') {
         const id = ++incomingIdRef.current;
-        setIncomingAttacks((prev) => [...prev, { id, type: 'firebreath', landsAt: Date.now() + TELEGRAPH_MS }]);
+        const attack: IncomingAttack = { id, type: 'firebreath', landsAt: Date.now() + TELEGRAPH_MS };
+        incomingAttacksRef.current = [...incomingAttacksRef.current, attack];
+        setIncomingAttacks((prev) => [...prev, attack]);
+        setTickRef.current?.((t) => t + 1);
       } else if (ev?.type === 'punch') {
         const id = ++incomingIdRef.current;
-        setIncomingAttacks((prev) => [...prev, { id, type: 'punch', landsAt: Date.now() + TELEGRAPH_MS }]);
+        const attack: IncomingAttack = { id, type: 'punch', landsAt: Date.now() + TELEGRAPH_MS };
+        incomingAttacksRef.current = [...incomingAttacksRef.current, attack];
+        setIncomingAttacks((prev) => [...prev, attack]);
+        setTickRef.current?.((t) => t + 1);
       } else if (ev?.type === 'health_update' && typeof ev.health === 'number') {
         setOpp(ev.health);
       }
@@ -132,7 +144,7 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
     const interval = setInterval(() => {
       const now = Date.now();
       const current = incomingAttacksRef.current;
-      if (current.length > 0) setTick((t) => t + 1);
+      setTick((t) => t + 1);
       const toResolve = current.filter((a) => now >= a.landsAt);
       if (toResolve.length === 0) return;
       const apply = applyDamageToSelfRef.current;
@@ -145,7 +157,9 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
           send({ type: 'health_update', health: newHealth });
         });
       });
-      setIncomingAttacks((prev) => prev.filter((a) => !toResolve.some((r) => r.id === a.id)));
+      const next = current.filter((a) => !toResolve.some((r) => r.id === a.id));
+      incomingAttacksRef.current = next;
+      setIncomingAttacks(next);
     }, 50);
     return () => clearInterval(interval);
   }, [state.phase]);
@@ -169,6 +183,20 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
     );
   }, [state.phase, gesture, confidence, setBlocking]);
 
+  const canSendAttack = useCallback(() => {
+    const now = Date.now();
+    const cutoff = now - ATTACK_RATE_WINDOW_MS;
+    const recent = attackSentAtRef.current.filter((t) => t > cutoff);
+    if (recent.length >= MAX_ATTACKS_PER_WINDOW) return false;
+    return true;
+  }, []);
+
+  const recordAttackSent = useCallback(() => {
+    const now = Date.now();
+    const cutoff = now - ATTACK_RATE_WINDOW_MS;
+    attackSentAtRef.current = [...attackSentAtRef.current.filter((t) => t > cutoff), now];
+  }, []);
+
   useEffect(() => {
     if (state.phase !== 'playing' || gesture === 'none' || confidence < 0.55) return;
     const now = Date.now();
@@ -177,8 +205,9 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
     const spellReady = now >= state.spellCooldownReadyAt;
 
     if (gesture === 'firebreath' && spellReady) {
-      if (tryCastSpell('firebreath').success) {
+      if (canSendAttack() && tryCastSpell('firebreath').success) {
         castLockRef.current = now + CAST_LOCK_MS;
+        recordAttackSent();
         setRecentCasts((c) => [...c.slice(-6), { action: 'firebreath', side: 'me', at: now }]);
         sendEvent({ type: 'spell_cast', spell: 'firebreath' });
       }
@@ -192,14 +221,15 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
       return;
     }
     if (gesture === 'punch') {
-      if (tryPunch()) {
+      if (canSendAttack() && tryPunch()) {
         castLockRef.current = now + CAST_LOCK_MS;
+        recordAttackSent();
         setRecentCasts((c) => [...c.slice(-6), { action: 'punch', side: 'me', at: now }]);
         sendEvent({ type: 'punch' });
       }
       return;
     }
-  }, [state.phase, state.spellCooldownReadyAt, gesture, confidence, tryCastSpell, tryPunch, sendEvent]);
+  }, [state.phase, state.spellCooldownReadyAt, gesture, confidence, tryCastSpell, tryPunch, sendEvent, canSendAttack, recordAttackSent]);
 
   const spellCooldownRem = () => {
     const now = Date.now();
