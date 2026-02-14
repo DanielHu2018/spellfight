@@ -25,6 +25,18 @@ const PEER_CONFIG = {
   host: '0.peerjs.com',
   secure: true,
   path: '/',
+  /** STUN/TURN so connections work across different devices/networks (not just same device). */
+  config: {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:freeturn.net:3478' },
+      {
+        urls: 'turn:freeturn.net:3478',
+        username: 'free',
+        credential: 'free',
+      },
+    ],
+  },
 };
 
 /** If Peer/signaling doesn't connect within this time, show error so user isn't stuck. */
