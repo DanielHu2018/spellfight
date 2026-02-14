@@ -1,5 +1,5 @@
 # Handzo — Gesture-Based PvP Duel
-[http:handzo.vercel.app
+[handzo.vercel.app
 ](https://handzo.vercel.app/)
 
 A two-player, web-based duel where you cast spells using **real-time hand gestures** from your webcam. Gesture detection runs **locally** (MediaPipe Hands); only game events are sent over the network (Phase 2: P2P).
