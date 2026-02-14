@@ -1,0 +1,53 @@
+:root {
+  --bg-deep: #0d0b12;
+  --bg-card: #16131d;
+  --bg-elevated: #1e1a28;
+  --border: #2d2840;
+  --text: #e8e4f0;
+  --text-muted: #9a92b0;
+  --accent: #c84af8;
+  --accent-dim: #8b3db3;
+  --fire: #ff6b35;
+  --shield: #4ecdc4;
+  --lightning: #ffe66d;
+  --heal: #95e1a3;
+  --danger: #ff4757;
+  --success: #2ed573;
+  --radius: 12px;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background: var(--bg-deep);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  min-height: 100vh;
+  background: var(--bg-deep);
+}
+
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* High contrast for colorblind-friendly spell cues */
+.spell-fireball, .spell-firebreath { --spell-color: var(--fire); }
+.spell-shield { --spell-color: var(--shield); }
+.spell-punch { --spell-color: #888; }
+.spell-block { --spell-color: var(--shield); }

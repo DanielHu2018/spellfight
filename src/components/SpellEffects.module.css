@@ -1,0 +1,128 @@
+.root {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.effect {
+  position: absolute;
+  animation: fadeOut 2s ease-out forwards;
+}
+
+.effect.me {
+  left: 15%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.effect.opponent {
+  right: 15%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.fireball {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffaa44, var(--fire));
+  box-shadow: 0 0 20px var(--fire), 0 0 40px rgba(255, 107, 53, 0.5);
+  animation: fireballMove 1.2s ease-out forwards;
+}
+
+.effect.me .fireball {
+  animation: fireballMoveRight 1.2s ease-out forwards;
+}
+
+.effect.opponent .fireball {
+  animation: fireballMoveLeft 1.2s ease-out forwards;
+}
+
+@keyframes fireballMoveRight {
+  0% { transform: translateX(0) scale(1); }
+  100% { transform: translateX(120px) scale(0.8); }
+}
+
+@keyframes fireballMoveLeft {
+  0% { transform: translateX(0) scale(1); }
+  100% { transform: translateX(-120px) scale(0.8); }
+}
+
+@keyframes fireballMove {
+  0% { transform: scale(1); }
+  100% { transform: scale(0.8); }
+}
+
+.shield {
+  width: 80px;
+  height: 80px;
+  border: 4px solid var(--shield);
+  border-radius: 50%;
+  background: rgba(78, 205, 196, 0.2);
+  box-shadow: 0 0 24px var(--shield), inset 0 0 20px rgba(78, 205, 196, 0.3);
+  animation: shieldPulse 1.5s ease-in-out;
+}
+
+@keyframes shieldPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.9; }
+}
+
+.lightning {
+  width: 8px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--lightning), #ffcc00);
+  box-shadow: 0 0 16px var(--lightning);
+  border-radius: 4px;
+  animation: lightningStrike 0.4s ease-out;
+}
+
+@keyframes lightningStrike {
+  0% { transform: scaleY(0); opacity: 1; }
+  50% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0.6; }
+}
+
+.heal {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, var(--heal), rgba(149, 225, 163, 0.4));
+  box-shadow: 0 0 20px var(--heal);
+  animation: healGlow 1.2s ease-out;
+}
+
+@keyframes healGlow {
+  0% { transform: scale(0.5); opacity: 0; }
+  30% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+.punch {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #888, #555);
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  animation: punchMove 0.4s ease-out forwards;
+}
+
+.effect.me .punch {
+  animation: fireballMoveRight 0.5s ease-out forwards;
+}
+
+.effect.opponent .punch {
+  animation: fireballMoveLeft 0.5s ease-out forwards;
+}
+
+@keyframes punchMove {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+

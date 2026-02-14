@@ -1,0 +1,156 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--bg-deep);
+}
+
+.card {
+  max-width: 520px;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+.previewWrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.gesturePreview {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.spellBadge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--spell-color, var(--accent));
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.progress {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.2s;
+}
+
+.dot.active {
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px var(--accent);
+}
+
+.dot.done {
+  background: var(--success);
+}
+
+.step {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.stepLabel {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem;
+}
+
+.stepHint {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.complete {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.complete p {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+}
+
+.cta {
+  padding: 0.65rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.cta:hover {
+  filter: brightness(1.1);
+}
+
+.back {
+  display: block;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.back:hover {
+  color: var(--text);
+}
