@@ -10,8 +10,8 @@
 .card {
   max-width: 520px;
   width: 100%;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-card) 0%, #1a2838 100%);
+  border: 1px solid var(--brown-dim);
   border-radius: var(--radius);
   padding: 1.5rem;
 }
@@ -20,10 +20,11 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.5rem;
+  color: var(--cream);
 }
 
 .subtitle {
-  color: var(--text-muted);
+  color: var(--cream-dim);
   font-size: 0.9rem;
   margin: 0 0 1rem;
 }
@@ -134,7 +135,7 @@
   background: var(--accent);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
 }
 
 .cta:hover {

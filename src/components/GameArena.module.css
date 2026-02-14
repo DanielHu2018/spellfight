@@ -81,21 +81,21 @@
 .healthBar {
   height: 12px;
   background: var(--bg-elevated);
-  border-radius: 6px;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
 .healthFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--success), #3dd977);
-  border-radius: 6px;
+  background: linear-gradient(90deg, var(--success), #3dd9a0);
+  border-radius: var(--radius);
   transition: width 0.2s ease;
 }
 
 .healthFillOpponent {
   height: 100%;
-  background: linear-gradient(90deg, var(--danger), #ff6b81);
-  border-radius: 6px;
+  background: linear-gradient(90deg, var(--danger), #ef6b7a);
+  border-radius: var(--radius);
   transition: width 0.2s ease;
 }
 
@@ -112,7 +112,7 @@
 
 .cooldownItem {
   padding: 0.35rem 0.65rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 0.8rem;
   font-weight: 600;
   background: var(--bg-elevated);
@@ -148,7 +148,7 @@
   font-size: 8rem;
   font-weight: 800;
   color: var(--accent);
-  text-shadow: 0 0 40px rgba(200, 74, 248, 0.5);
+  text-shadow: 0 0 40px rgba(72, 202, 228, 0.4);
   pointer-events: none;
   z-index: 10;
   animation: pulse 1s ease-in-out;
@@ -215,7 +215,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 1.5rem;
   font-weight: 800;
   z-index: 2;
@@ -226,29 +226,29 @@
 .arrowIconFire {
   color: #fff;
   text-shadow: 0 0 12px var(--fire), 0 0 4px #000;
-  background: linear-gradient(180deg, #ff8c5a 0%, #ff6b35 50%, #e55a28 100%);
+  background: linear-gradient(180deg, #f4a261 0%, #e76f51 50%, #c65d3d 100%);
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: var(--radius);
   border: 2px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-wave);
 }
 
 .arrowIconPunch {
   color: #fff;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.6), 0 0 4px #000;
-  background: linear-gradient(180deg, #6a6a6a 0%, #4a4a4a 50%, #333 100%);
+  background: linear-gradient(180deg, #778da9 0%, #415a77 50%, #1b263b 100%);
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: var(--radius);
   border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-wave);
 }
 
 .arrow[data-attack="firebreath"] { z-index: 3; }
@@ -258,7 +258,7 @@
   flex: 1;
   min-height: 200px;
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--brown-dim);
   border-radius: var(--radius);
   position: relative;
   overflow: hidden;
@@ -343,7 +343,7 @@
   padding: 0.65rem 1.25rem;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   color: var(--text);
   font-weight: 600;
 }
@@ -391,7 +391,7 @@
 .spellPreview {
   display: inline-block;
   padding: 0.2rem 0.4rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
   font-weight: 600;
   background: var(--spell-color, var(--accent));
   color: rgba(0, 0, 0, 0.9);
@@ -417,7 +417,7 @@
   padding: 0.5rem 1rem;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   color: var(--text-muted);
   font-size: 0.9rem;
 }

@@ -1,21 +1,28 @@
+/* Great Wave off Kanagawa – indigo, foam cyan, cream & brown */
 :root {
-  --bg-deep: #0d0b12;
-  --bg-card: #16131d;
-  --bg-elevated: #1e1a28;
-  --border: #2d2840;
-  --text: #e8e4f0;
-  --text-muted: #9a92b0;
-  --accent: #c84af8;
-  --accent-dim: #8b3db3;
-  --fire: #ff6b35;
-  --shield: #4ecdc4;
-  --lightning: #ffe66d;
+  --bg-deep: #0d1b2a;
+  --bg-card: #1e2d3d;
+  --bg-elevated: #2d3e52;
+  --border: #5d6b7a;
+  --text: #e8e4dc;
+  --text-muted: #b8a99a;
+  --cream: #f5f0e1;
+  --cream-dim: #d4c4a8;
+  --brown: #6b5b4f;
+  --brown-dim: #4a4038;
+  --accent: #48cae4;
+  --accent-dim: #2a9d8f;
+  --fire: #e76f51;
+  --shield: #90e0ef;
+  --lightning: #caf0f8;
   --heal: #95e1a3;
-  --danger: #ff4757;
-  --success: #2ed573;
-  --radius: 12px;
+  --danger: #e63946;
+  --success: #2a9d8f;
+  --radius: 4px;
   --font-sans: 'Outfit', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --shadow-wave: 0 4px 16px rgba(13, 27, 42, 0.4);
+  --shadow-accent: 0 6px 20px rgba(72, 202, 228, 0.25);
 }
 
 * {
@@ -71,5 +78,5 @@ button:disabled {
 /* High contrast for colorblind-friendly spell cues */
 .spell-fireball, .spell-firebreath { --spell-color: var(--fire); }
 .spell-shield { --spell-color: var(--shield); }
-.spell-punch { --spell-color: #888; }
+.spell-punch { --spell-color: #778da9; }
 .spell-block { --spell-color: var(--shield); }

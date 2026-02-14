@@ -4,15 +4,16 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200, 74, 248, 0.15), transparent),
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 240, 225, 0.08), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(72, 202, 228, 0.08), transparent),
     var(--bg-deep);
 }
 
 .card {
   max-width: 420px;
   width: 100%;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-card) 0%, #1a2838 100%);
+  border: 1px solid var(--brown-dim);
   border-radius: var(--radius);
   padding: 2.5rem;
   text-align: center;
@@ -23,11 +24,11 @@
   font-weight: 800;
   margin: 0 0 0.5rem;
   letter-spacing: -0.02em;
-  color: var(--accent);
+  color: var(--cream);
 }
 
 .subtitle {
-  color: var(--text-muted);
+  color: var(--cream-dim);
   font-size: 1.05rem;
   margin: 0 0 1.75rem;
   line-height: 1.5;
@@ -38,7 +39,8 @@
   align-items: flex-start;
   gap: 0.75rem;
   text-align: left;
-  background: var(--bg-elevated);
+  background: rgba(107, 91, 79, 0.2);
+  border: 1px solid var(--brown-dim);
   border-radius: var(--radius);
   padding: 1rem 1.25rem;
   margin-bottom: 1.75rem;
@@ -74,7 +76,7 @@
 
 .cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(200, 74, 248, 0.35);
+  box-shadow: var(--shadow-accent);
 }
 
 .cta:active {

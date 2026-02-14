@@ -10,8 +10,8 @@
 .card {
   max-width: 480px;
   width: 100%;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-card) 0%, #1a2838 100%);
+  border: 1px solid var(--brown-dim);
   border-radius: var(--radius);
   padding: 1.5rem;
 }
@@ -20,10 +20,11 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.5rem;
+  color: var(--cream);
 }
 
 .subtitle {
-  color: var(--text-muted);
+  color: var(--cream-dim);
   font-size: 0.95rem;
   margin: 0 0 1.25rem;
 }
@@ -64,7 +65,7 @@
   padding: 0.5rem 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   color: var(--text);
   font-size: 0.9rem;
 }
@@ -82,7 +83,7 @@
 .secondary,
 .primary {
   padding: 0.65rem 1.25rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 0.95rem;
   font-weight: 600;
 }

@@ -31,7 +31,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ffaa44, var(--fire));
+  background: radial-gradient(circle at 30% 30%, #f4a261, var(--fire));
   box-shadow: 0 0 20px var(--fire), 0 0 40px rgba(255, 107, 53, 0.5);
   animation: fireballMove 1.2s ease-out forwards;
 }
@@ -77,9 +77,9 @@
 .lightning {
   width: 8px;
   height: 60px;
-  background: linear-gradient(180deg, var(--lightning), #ffcc00);
+  background: linear-gradient(180deg, var(--lightning), #90e0ef);
   box-shadow: 0 0 16px var(--lightning);
-  border-radius: 4px;
+  border-radius: var(--radius);
   animation: lightningStrike 0.4s ease-out;
 }
 
