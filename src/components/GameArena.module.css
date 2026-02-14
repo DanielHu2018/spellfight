@@ -431,3 +431,42 @@
   color: var(--danger);
   border-color: var(--danger);
 }
+
+@media (max-width: 768px) {
+  .arenaWrap {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .arena {
+    padding: 0.5rem;
+    padding-top: max(0.5rem, env(safe-area-inset-top, 0));
+  }
+  .exit {
+    top: max(1rem, env(safe-area-inset-top, 0));
+    right: max(1rem, env(safe-area-inset-right, 0));
+    padding: 0.6rem 1rem;
+    min-height: 44px;
+  }
+  .arenaMirror .exit {
+    right: auto;
+    left: max(1rem, env(safe-area-inset-left, 0));
+  }
+  .webcamWrap {
+    width: 100px;
+    bottom: calc(5rem + env(safe-area-inset-bottom, 0));
+    right: 0.5rem;
+  }
+  .arenaMirror .webcamWrap {
+    right: auto;
+    left: 0.5rem;
+  }
+  .hud {
+    gap: 0.5rem;
+  }
+  .healthRow {
+    gap: 1rem;
+  }
+  .cooldownItem {
+    min-width: 48px;
+    padding: 0.25rem 0.5rem;
+  }
+}

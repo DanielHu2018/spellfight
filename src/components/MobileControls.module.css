@@ -1,0 +1,89 @@
+.wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, var(--bg-deep) 70%, transparent);
+  z-index: 20;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  flex: 1;
+  min-width: 88px;
+  max-width: 120px;
+  min-height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.5rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+}
+
+.btn.firebreath {
+  border-color: var(--fire);
+  background: rgba(231, 111, 81, 0.15);
+}
+
+.btn.firebreath:not(:disabled):active {
+  background: rgba(231, 111, 81, 0.3);
+}
+
+.btn.punch {
+  border-color: var(--border);
+  background: var(--bg-elevated);
+}
+
+.btn.punch:not(:disabled):active {
+  background: var(--border);
+}
+
+.btn.block {
+  border-color: var(--shield);
+  background: rgba(144, 224, 239, 0.1);
+}
+
+.btn.blockActive {
+  background: rgba(144, 224, 239, 0.3);
+  border-color: var(--shield);
+  box-shadow: 0 0 12px rgba(144, 224, 239, 0.3);
+}
+
+.icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cd {
+  font-size: 0.65rem;
+  opacity: 0.9;
+  font-family: var(--font-mono);
+}

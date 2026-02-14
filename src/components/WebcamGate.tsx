@@ -16,8 +16,11 @@ export function WebcamGate({ onReady, onBack }: WebcamGateProps) {
     setStatus('loading');
     setError(null);
     try {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 640, height: 480, facingMode: 'user' },
+        video: isMobile
+          ? { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' }
+          : { width: 640, height: 480, facingMode: 'user' },
       });
       streamRef.current = stream;
       if (videoRef.current) {

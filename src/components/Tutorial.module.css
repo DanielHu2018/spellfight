@@ -4,6 +4,10 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  padding-top: max(1.5rem, env(safe-area-inset-top, 0));
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0));
+  padding-left: max(1.5rem, env(safe-area-inset-left, 0));
+  padding-right: max(1.5rem, env(safe-area-inset-right, 0));
   background: var(--bg-deep);
 }
 

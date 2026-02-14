@@ -2,8 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { DataConnection } from 'peerjs';
 import { useHandTracker } from '../hooks/useHandTracker';
 import { useGameState } from '../hooks/useGameState';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { SPELL_CONFIG, PUNCH_DAMAGE } from '../types';
 import type { ActionType } from './SpellEffects';
+import { MobileControls } from './MobileControls';
 import { SpellEffects } from './SpellEffects';
 import styles from './GameArena.module.css';
 
@@ -39,6 +41,7 @@ interface GameArenaProps {
 }
 
 export function GameArena({ stream, connection, remoteStream, onStartVideoCall, onExit, layoutMirror = false }: GameArenaProps) {
+  const isMobile = useIsMobile();
   const { videoRef, status, gesture, confidence, fps, start, stop } = useHandTracker();
   const { state, startCountdown, tryCastSpell, tryPunch, setBlocking, applyDamageToSelf, setOpponentHealth, setVictory } = useGameState({
     online: !!connection,
@@ -196,6 +199,30 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
     const cutoff = now - ATTACK_RATE_WINDOW_MS;
     attackSentAtRef.current = [...attackSentAtRef.current.filter((t) => t > cutoff), now];
   }, []);
+
+  const handleMobileFirebreath = useCallback(() => {
+    const now = Date.now();
+    if (now < castLockRef.current) return;
+    if (!canSendAttack()) return;
+    if (tryCastSpell('firebreath').success) {
+      castLockRef.current = now + CAST_LOCK_MS;
+      recordAttackSent();
+      setRecentCasts((c) => [...c.slice(-6), { action: 'firebreath', side: 'me', at: now }]);
+      sendEvent({ type: 'spell_cast', spell: 'firebreath' });
+    }
+  }, [canSendAttack, recordAttackSent, tryCastSpell, sendEvent]);
+
+  const handleMobilePunch = useCallback(() => {
+    const now = Date.now();
+    if (now < castLockRef.current) return;
+    if (!canSendAttack()) return;
+    if (tryPunch()) {
+      castLockRef.current = now + CAST_LOCK_MS;
+      recordAttackSent();
+      setRecentCasts((c) => [...c.slice(-6), { action: 'punch', side: 'me', at: now }]);
+      sendEvent({ type: 'punch' });
+    }
+  }, [canSendAttack, recordAttackSent, tryPunch, sendEvent]);
 
   useEffect(() => {
     if (state.phase !== 'playing' || gesture === 'none' || confidence < 0.55) return;
@@ -391,6 +418,18 @@ export function GameArena({ stream, connection, remoteStream, onStartVideoCall, 
       <button type="button" className={styles.exit} onClick={onExit} title="Exit match">
         Exit
       </button>
+
+      {isMobile && state.phase === 'playing' && (
+        <MobileControls
+          onFirebreath={handleMobileFirebreath}
+          onPunch={handleMobilePunch}
+          onBlockStart={() => setBlocking(true)}
+          onBlockEnd={() => setBlocking(false)}
+          spellCooldownRem={spellCooldownRem()}
+          punchCooldownRem={punchCooldownRem()}
+          isBlocking={state.isBlocking}
+        />
+      )}
       </div>
     </div>
   );
